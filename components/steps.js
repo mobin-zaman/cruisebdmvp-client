@@ -11,7 +11,7 @@ export default function Steps({shipOption, checkSeatOptions, getTicketOptions}) 
     </Step>
 
 
-    <Step completed={checkSeatOptions}>
+    <Step completed={checkSeatOptions} >
       <Step.Content>
         <Step.Title>Check Seat</Step.Title>
         <Step.Description>Check the seats and select</Step.Description>
