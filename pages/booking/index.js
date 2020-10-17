@@ -6,7 +6,7 @@ import Step from '../../components/steps';
 import { useState, useReducer } from 'react';
 import SemanticDatepicker from 'react-semantic-ui-datepickers';
 import 'react-semantic-ui-datepickers/dist/react-semantic-ui-datepickers.css';
-import { useRouter } from 'next/router';
+import {useRouter} from 'next/router';
 
 function exampleReducer(state, action) {
     switch (action.type) {
@@ -24,6 +24,8 @@ function exampleReducer(state, action) {
 
 export default function BookingPage({ data }) {
 
+    const router = useRouter();
+
     const [state, dispatch] = useReducer(exampleReducer, {
         open: false,
         size: undefined,
@@ -37,11 +39,10 @@ export default function BookingPage({ data }) {
 
     const [selectedRoute, setSelectedRoute] = useState(null);
 
-    const router = useRouter();
 
     const onDateChange = (event, data) => {
         // console.log("de value: ", reformatDate(data.value));
-       if(data.value) setSelectedDate(reformatDate(data.value))
+        if (data.value) setSelectedDate(reformatDate(data.value))
     };
 
     function reformatDate(value) {
@@ -96,6 +97,17 @@ export default function BookingPage({ data }) {
             console.log("selectedRoute: ", selectedRoute);
             console.log("selectedDate: ", selectedDate);
             dispatch({ type: 'open', size: 'mini' });
+        } else {
+          const  href = {
+                pathname: '/booking/check-seat/[routeId]',
+                qeury: {
+                    routeId: selectedRoute.id,
+                    // departureDate: selectedDate
+                },
+            }
+
+            router.push(href);
+
         }
     }
 
@@ -140,8 +152,11 @@ export default function BookingPage({ data }) {
             {/* // ) : null */}
             {/* } */}
 
-            <SemanticDatepicker onChange={onDateChange} format='DD-MM-YYYY' />
+            <div> Pick Departure Date</div>
+            <div>
+                <SemanticDatepicker onChange={onDateChange} format='DD-MM-YYYY' />
 
+            </div>
 
             <Modal
                 size={size}
@@ -150,7 +165,7 @@ export default function BookingPage({ data }) {
             >
                 <Modal.Header>Please input in the form properly</Modal.Header>
                 <Modal.Content>
-                <p> Can you please check again?</p>
+                    <p> Can you please check again?</p>
                 </Modal.Content>
                 <Modal.Actions>
                     <Button positive onClick={() => dispatch({ type: 'close' })}>
@@ -163,8 +178,9 @@ export default function BookingPage({ data }) {
 
                 onClick={buttonClickHandler}
             > Check! </Button>
-
-            <Step />
+            <div>
+                <Step />
+            </div>
 
         </>
 
