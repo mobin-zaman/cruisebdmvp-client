@@ -1,25 +1,51 @@
 // import {DropDown} from 'semantic-ui-react';
-import { Dropdown } from 'semantic-ui-react'
+import { Dropdown, Button, Icon, Modal } from 'semantic-ui-react'
 // import ShipDropDown from '../components/ship-dropdown'
 import getShipData from '../../api-service/ship-data';
 import Step from '../../components/steps';
-import { useState } from 'react';
+import { useState, useReducer } from 'react';
 import SemanticDatepicker from 'react-semantic-ui-datepickers';
 import 'react-semantic-ui-datepickers/dist/react-semantic-ui-datepickers.css';
+import { useRouter } from 'next/router';
+
+function exampleReducer(state, action) {
+    switch (action.type) {
+        case 'close':
+            return { open: false }
+        case 'open':
+            return { open: true, size: action.size }
+        default:
+            throw new Error('Unsupported action...')
+    }
+}
+
+
 
 
 export default function BookingPage({ data }) {
 
+    const [state, dispatch] = useReducer(exampleReducer, {
+        open: false,
+        size: undefined,
+    })
+
+    const { open, size } = state;
+
     const [selectedShip, setSelectedShip] = useState(null);
 
-    const [currentDate, setNewDate] = useState(null);
+    const [selectedDate, setSelectedDate] = useState(null);
+
+    const [selectedRoute, setSelectedRoute] = useState(null);
+
+    const router = useRouter();
+
     const onDateChange = (event, data) => {
         // console.log("de value: ", reformatDate(data.value));
-        setNewDate(reformatDate(data.value))
+       if(data.value) setSelectedDate(reformatDate(data.value))
     };
 
     function reformatDate(value) {
-        const dateStr =  value.toISOString().substring(0,10);
+        const dateStr = value.toISOString().substring(0, 10);
         let dArr = dateStr.split("-");  // ex input "2010-01-18"
         return dArr[2] + "/" + dArr[1] + "/" + dArr[0]; //ex out: "18/01/10"
         // return dateStr;
@@ -57,6 +83,22 @@ export default function BookingPage({ data }) {
 
     }
 
+    const getRoute = (event, data) => {
+        console.log("get route: ");
+        console.log("event: ", event);
+        console.log("data: ", data);
+        setSelectedRoute(data.value);
+    }
+
+    const buttonClickHandler = () => {
+        if (!selectedShip || !selectedRoute || !selectedDate) {
+            console.log("selectedShip: ", selectedShip);
+            console.log("selectedRoute: ", selectedRoute);
+            console.log("selectedDate: ", selectedDate);
+            dispatch({ type: 'open', size: 'mini' });
+        }
+    }
+
     // if (selectedShip) {
     //     setRoutesOption(data.find(x => x.id === selectedShip).routes.map((element) => (
     //         {
@@ -92,12 +134,35 @@ export default function BookingPage({ data }) {
                 fluid
                 selection
                 options={getRouteOptions(selectedShip)}
+                onChange={getRoute}
             /></div>
             {/* </> */}
             {/* // ) : null */}
             {/* } */}
 
             <SemanticDatepicker onChange={onDateChange} format='DD-MM-YYYY' />
+
+
+            <Modal
+                size={size}
+                open={open}
+                onClose={() => dispatch({ type: 'close' })}
+            >
+                <Modal.Header>Please input in the form properly</Modal.Header>
+                <Modal.Content>
+                <p> Can you please check again?</p>
+                </Modal.Content>
+                <Modal.Actions>
+                    <Button positive onClick={() => dispatch({ type: 'close' })}>
+                        Okay
+          </Button>
+                </Modal.Actions>
+            </Modal>
+
+            <Button positive
+
+                onClick={buttonClickHandler}
+            > Check! </Button>
 
             <Step />
 
