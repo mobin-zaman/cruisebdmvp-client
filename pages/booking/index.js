@@ -7,6 +7,7 @@ import { useState, useReducer } from 'react';
 import SemanticDatepicker from 'react-semantic-ui-datepickers';
 import 'react-semantic-ui-datepickers/dist/react-semantic-ui-datepickers.css';
 import {useRouter} from 'next/router';
+import {useLocalStorage} from '../../custom-hooks/uselocalstoragehook';
 
 function exampleReducer(state, action) {
     switch (action.type) {
@@ -38,6 +39,10 @@ export default function BookingPage({ data }) {
     const [selectedDate, setSelectedDate] = useState(null);
 
     const [selectedRoute, setSelectedRoute] = useState(null);
+
+    //local storage hooks:
+    const [localStorageDepartureDate, setLocalStorageDepartureDate] = useLocalStorage('departureDate', null);
+    const [localStorageRouteId, setLocalStorageRouteId] = useLocalStorage('routeId', null);
 
 
     const onDateChange = (event, data) => {
@@ -96,32 +101,19 @@ export default function BookingPage({ data }) {
             console.log("selectedShip: ", selectedShip);
             console.log("selectedRoute: ", selectedRoute);
             console.log("selectedDate: ", selectedDate);
+            //the below line is for controlling the form data error modal
             dispatch({ type: 'open', size: 'mini' });
-        } else {
-          const  href = {
-                pathname: '/booking/check-seat/[routeId]',
-                qeury: {
-                    routeId: selectedRoute.id,
-                    // departureDate: selectedDate
-                },
-            }
 
-            router.push(href);
+        } else {
+            //set session storage here
+            setLocalStorageDepartureDate(selectedDate);
+            setLocalStorageRouteId(selectedRoute);
+            
+            router.push('/booking/check-seat');
 
         }
     }
 
-    // if (selectedShip) {
-    //     setRoutesOption(data.find(x => x.id === selectedShip).routes.map((element) => (
-    //         {
-    //             key: element.id,
-    //             value: element.id,
-    //             text: element.routeName
-
-    //         }
-
-    //     )))
-    // }
 
     return (
         <>
