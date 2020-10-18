@@ -7,7 +7,6 @@ import { useState, useReducer } from 'react';
 import SemanticDatepicker from 'react-semantic-ui-datepickers';
 import 'react-semantic-ui-datepickers/dist/react-semantic-ui-datepickers.css';
 import {useRouter} from 'next/router';
-import {useLocalStorage} from '../../custom-hooks/uselocalstoragehook';
 
 function exampleReducer(state, action) {
     switch (action.type) {
@@ -40,9 +39,6 @@ export default function BookingPage({ data }) {
 
     const [selectedRoute, setSelectedRoute] = useState(null);
 
-    //local storage hooks:
-    const [localStorageDepartureDate, setLocalStorageDepartureDate] = useLocalStorage('departureDate', null);
-    const [localStorageRouteId, setLocalStorageRouteId] = useLocalStorage('routeId', null);
 
 
     const onDateChange = (event, data) => {
@@ -106,10 +102,7 @@ export default function BookingPage({ data }) {
 
         } else {
             //set session storage here
-            setLocalStorageDepartureDate(selectedDate);
-            setLocalStorageRouteId(selectedRoute);
-            
-            router.push('/booking/check-seat');
+            router.push( `/booking/check-seat/${selectedRoute}?departureDate=${encodeURIComponent(selectedDate)}`);
 
         }
     }
