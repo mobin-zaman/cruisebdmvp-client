@@ -48,6 +48,7 @@ function CheckSeatPage({ data }) {
         text: element.seatName
       }
     ));
+    console.log("available seats: ", availableSeats);
 
     return availableSeats;
 
@@ -74,7 +75,6 @@ function CheckSeatPage({ data }) {
 
       {selectedSeatCategory ? (
         <>
-          {getAvailableSeats(selectedSeatCategory)}
           <div> Seat Layout</div>
           <div>
             <Image src={getSeatLayoutImageUrl(selectedSeatCategory)} />
