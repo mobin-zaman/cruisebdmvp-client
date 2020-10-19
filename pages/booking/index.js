@@ -6,7 +6,7 @@ import Step from '../../components/steps';
 import { useState, useReducer } from 'react';
 import SemanticDatepicker from 'react-semantic-ui-datepickers';
 import 'react-semantic-ui-datepickers/dist/react-semantic-ui-datepickers.css';
-import {useRouter} from 'next/router';
+import { useRouter } from 'next/router';
 
 function exampleReducer(state, action) {
     switch (action.type) {
@@ -102,7 +102,7 @@ export default function BookingPage({ data }) {
 
         } else {
             //set session storage here
-            router.push( `/booking/check-seat/${selectedRoute}?departureDate=${encodeURIComponent(selectedDate)}`);
+            router.push(`/booking/check-seat/${selectedRoute}?departureDate=${encodeURIComponent(selectedDate)}`);
 
         }
     }
