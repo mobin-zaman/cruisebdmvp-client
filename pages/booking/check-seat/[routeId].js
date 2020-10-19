@@ -1,15 +1,38 @@
 import { useRouter } from 'next/router'
+import getSeatInfo from '../../../api-service/seat-info';
 
-const Post = () => {
+function CheckSeatPage({ data }) {
   const router = useRouter()
   const { routeId, departureDate } = router.query
 
-  return(
-    <>
-  <p>Post: {routeId}</p>
-          <p>Selectecd Date: {departureDate}</p>
-          </>
+  console.log("Data: ", data);
+
+  return (
+    <p>Post: {routeId}</p>
   );
 }
 
-export default Post
+export async function getServerSideProps({ query }) {
+  console.log("Being called: getServerSideProps for seatCategoryInfo: ");
+
+  // const data = await getSeatInfo();
+
+  // console.log("query in getServerSideProps: ", query);
+
+  const {routeId, departureDate} = query;
+
+
+  let data = await getSeatInfo(routeId, departureDate);
+
+  // console.log("data: ", data);
+
+  // data = {
+    // sample:"data"
+  // }
+
+  // Pass data to the page via props
+  return { props: { data } }
+}
+
+
+export default CheckSeatPage

@@ -1,6 +1,6 @@
 import * as axios from "axios";
+import {BASE_URL} from "./base-url";
 
-const BASE_URL = "http://192.168.0.100:4000";
 
 export default async function getShipData() {
     
