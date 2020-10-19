@@ -1,23 +1,48 @@
 import { useRouter } from 'next/router'
 import getSeatInfo from '../../../api-service/seat-info';
-import { Dropdown } from "semantic-ui-react";
+import { Dropdown, Image } from "semantic-ui-react";
+import {useState} from 'react';
 
 function CheckSeatPage({ data }) {
   const router = useRouter()
   const { routeId, departureDate } = router.query
+
+  const [selectedSeatCategory, setSelectedSeatCategory] = useState(null);
 
   // console.log("Data: ", data);
 
   const seatCategoryOption = data.map(element => (
     {
       key: element.seatCategoryId,
-      value: element.seatCategoryId, 
-    text: element.seatCategoryName
+      value: element.seatCategoryId,
+      text: element.seatCategoryName
 
     }
   ));
 
-  
+  const getSeatCategory = (event, data) => {
+    console.log("selectedSeatCategory: ", data.value);
+    setSelectedSeatCategory(data.value);
+  }
+
+  const getSeatLayoutImageUrl = (seatCategoryId) => {
+    if(seatCategoryId === null) return null;
+
+    const seatCategory = data.find(x => x.seatCategoryId === seatCategoryId);
+
+    // console.log("sealected seat category: ", seatCategory);
+    return seatCategory.seatLayoutUrl;
+
+  }
+
+  const getAvailableSeats = (seatCategoryId) => {
+    if(seatCategoryId === null) return null;
+    const seatCategory = data.find(x => x.seatCategoryId === seatCategoryId);
+
+    console.log("available seats: ",seatCategory.availableSeats);
+
+  }
+
 
   console.log("Seat category options: ", seatCategoryOption);
 
@@ -33,9 +58,21 @@ function CheckSeatPage({ data }) {
           selection
           options={seatCategoryOption}
           button
+          onChange={getSeatCategory}
 
         />
       </div>
+
+      {selectedSeatCategory ? (
+        <>
+        {getAvailableSeats(selectedSeatCategory)}
+       <div> Seat Layout</div>
+      <div>
+        <Image src={getSeatLayoutImageUrl(selectedSeatCategory)}/>
+      </div>
+      </>
+      ) : null
+      } 
     </>
   );
 }
