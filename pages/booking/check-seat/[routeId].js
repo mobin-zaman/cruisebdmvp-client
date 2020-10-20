@@ -8,6 +8,7 @@ function CheckSeatPage({ data }) {
   const { routeId, departureDate } = router.query
 
   const [selectedSeatCategory, setSelectedSeatCategory] = useState(null);
+  const [selectedSeatIds, setSelectedSeatIds] = useState(null);
 
   // console.log("Data: ", data);
 
@@ -41,7 +42,7 @@ function CheckSeatPage({ data }) {
 
     console.log("available seats: ", seatCategory.availableSeats);
 
-    const availableSeats  =  seatCategory.availableSeats.map(element => (
+    const availableSeats = seatCategory.availableSeats.map(element => (
       {
         key: element.seatId,
         value: element.seatId,
@@ -52,6 +53,13 @@ function CheckSeatPage({ data }) {
 
     return availableSeats;
 
+  }
+
+  const getSelectedSeats = ( event, data) => {
+    console.log("Get selected seat: ");
+    console.log("Event: ", event);
+    console.log("data: ", data);
+    setSelectedSeatIds(data.value);
   }
 
 
@@ -89,9 +97,12 @@ function CheckSeatPage({ data }) {
               multiple
               options={getAvailableSeats(selectedSeatCategory)}
               button
-            // onChange={g}
+            onChange={getSelectedSeats}
             />
           </div>
+          {/* <div>
+            <Step />
+          </div> */}
         </>
       ) : null
       }
