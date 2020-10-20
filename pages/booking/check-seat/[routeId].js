@@ -1,7 +1,8 @@
 import { useRouter } from 'next/router'
 import getSeatInfo from '../../../api-service/seat-info';
-import { Dropdown, Image } from "semantic-ui-react";
+import { Dropdown, Image,Grid } from "semantic-ui-react";
 import { useState } from 'react';
+import PricingTable from '../../../components/price-table';
 
 function CheckSeatPage({ data }) {
   const router = useRouter()
@@ -62,6 +63,32 @@ function CheckSeatPage({ data }) {
     setSelectedSeatIds(data.value);
   }
 
+  /**
+   * * necessary to show the tables 
+   * @param {*} seatIds 
+   */
+  const getSelectedSeatInformation = (seatIds) => {
+    if(!seatIds) return null;
+
+
+    const selectedCategory = data.find(x => x.seatCategoryId === selectedSeatCategory);
+    const availableSeats = selectedCategory.availableSeats;
+
+    console.log("get availableSeats: ", availableSeats);
+
+    let selectedSeatInformations = [];
+
+    for (const seatId of seatIds) {
+      console.log("Seat id: ", seatId);
+      const seatInformation = availableSeats.find(x=> x.seatId === seatId);
+      console.log("selected seatInformation: ", seatInformation);
+      selectedSeatInformations.push(seatInformation);
+    }
+
+    return selectedSeatInformations;
+    
+  }
+
 
   console.log("Seat category options: ", seatCategoryOption);
 
@@ -87,12 +114,15 @@ function CheckSeatPage({ data }) {
           <div>
             <Image src={getSeatLayoutImageUrl(selectedSeatCategory)} />
           </div>
+          <Grid columns={2}>
+            <Grid.Row>
+              <Grid.Column>
           <div>Available seats for purchase</div>
           <div>
             <Dropdown
               placeholder=' Select seats'
               search
-              fluid
+          // fluid
               selection
               multiple
               options={getAvailableSeats(selectedSeatCategory)}
@@ -100,9 +130,16 @@ function CheckSeatPage({ data }) {
             onChange={getSelectedSeats}
             />
           </div>
+          </Grid.Column>
+          {/* //?the price table componenet */}
+          <Grid.Column>
+            <PricingTable data={getSelectedSeatInformation(selectedSeatIds)}/>
+            </Grid.Column>
           {/* <div>
             <Step />
           </div> */}
+          </Grid.Row>
+        </Grid>
         </>
       ) : null
       }

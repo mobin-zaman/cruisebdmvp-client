@@ -63,7 +63,7 @@ export default function BookingPage({ data }) {
     ));
 
     const getRouteOptions = (shipId) => {
-        if (shipId === null) return null;
+        if (!shipId) return null;
         const ship = data.find(x => x.id === shipId);
 
         console.log("ship: ", ship);
