@@ -6,7 +6,7 @@ import PricingTable from '../../../components/price-table';
 
 function CheckSeatPage({ data }) {
   const router = useRouter()
-  const { routeId, departureDate } = router.query
+  // const { routeId, departureDate } = router.query
 
   const [selectedSeatCategory, setSelectedSeatCategory] = useState(null);
   const [selectedSeatIds, setSelectedSeatIds] = useState(null);

@@ -42,15 +42,20 @@ export default function BookingPage({ data }) {
 
 
     const onDateChange = (event, data) => {
-        // console.log("de value: ", reformatDate(data.value));
+        console.log("de value: ",data.value);
         if (data.value) setSelectedDate(reformatDate(data.value))
     };
 
     function reformatDate(value) {
-        const dateStr = value.toISOString().substring(0, 10);
-        let dArr = dateStr.split("-");  // ex input "2010-01-18"
-        return dArr[2] + "/" + dArr[1] + "/" + dArr[0]; //ex out: "18/01/10"
-        // return dateStr;
+
+        const date = value.getDate();
+        //1 needs to be added in month because getMonth() returns from 0 to 11
+        const month = value.getMonth()+1;
+        const year = value.getFullYear();
+
+        const final = `${date}/${month}/${year}`;
+        console.log("final: ", final);
+        return final;
     }
 
 
