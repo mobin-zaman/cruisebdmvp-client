@@ -1,15 +1,39 @@
 import { useRouter } from 'next/router'
 import getSeatInfo from '../../../api-service/seat-info';
 import { Dropdown, Image,Grid } from "semantic-ui-react";
-import { useState } from 'react';
+import { useState, useReducer } from 'react';
 import PricingTable from '../../../components/price-table';
+
+//? ref: https://stackoverflow.com/questions/54895883/reset-to-initial-state-with-react-hooks
+
+const initialState = {
+  selectedSeatIds: null
+}
+
+const reducer = (state, action) => {
+  if(action.type === "reset") {
+    return initialState;
+  }
+
+  console.log("value being dispatched: ", action.value);
+  const result = {...state};
+  result[action.type] = action.value;
+  console.log("this is the result: ", result);
+
+  return result;
+}
+
 
 function CheckSeatPage({ data }) {
   const router = useRouter()
-  // const { routeId, departureDate } = router.query
+
+  const [state, dispatch] = useReducer(reducer, initialState);
+
+  const {selectedSeatIds} = state;
+
 
   const [selectedSeatCategory, setSelectedSeatCategory] = useState(null);
-  const [selectedSeatIds, setSelectedSeatIds] = useState(null);
+  // const [selectedSeatIds, setSelectedSeatIds] = useState(null);
 
   // console.log("Data: ", data);
 
@@ -38,6 +62,10 @@ function CheckSeatPage({ data }) {
   }
 
   const getAvailableSeats = (seatCategoryId) => {
+    console.log("this is before");
+    // dispatch({type: 'reset'}); //the dispatch works for selected seatIds
+    console.log("this is out")
+
     if (seatCategoryId === null) return null;
     const seatCategory = data.find(x => x.seatCategoryId === seatCategoryId);
 
@@ -60,7 +88,9 @@ function CheckSeatPage({ data }) {
     console.log("Get selected seat: ");
     console.log("Event: ", event);
     console.log("data: ", data);
-    setSelectedSeatIds(data.value);
+    // setSelectedSeatIds(data.value);
+    //!the type needs to be string, not the variable name
+    dispatch({type: "selectedSeatIds", value: data.value});
   }
 
   /**
@@ -69,7 +99,7 @@ function CheckSeatPage({ data }) {
    */
   const getSelectedSeatInformation = (seatIds) => {
     if(!seatIds) return null;
-
+    console.log("Seat ids: ", seatIds);
 
     const selectedCategory = data.find(x => x.seatCategoryId === selectedSeatCategory);
     const availableSeats = selectedCategory.availableSeats;
@@ -108,15 +138,13 @@ function CheckSeatPage({ data }) {
         />
       </div>
 
-      {selectedSeatCategory ? (
-        <>
           <div> Seat Layout</div>
-          <div>
-            <Image src={getSeatLayoutImageUrl(selectedSeatCategory)} />
-          </div>
           <Grid columns={2}>
             <Grid.Row>
               <Grid.Column>
+          <div>
+            <Image src={getSeatLayoutImageUrl(selectedSeatCategory)} />
+          </div>
           <div>Available seats for purchase</div>
           <div>
             <Dropdown
@@ -133,19 +161,15 @@ function CheckSeatPage({ data }) {
           </Grid.Column>
           {/* //?the price table componenet */}
           <Grid.Column>
+      {selectedSeatIds ? (
             <PricingTable data={getSelectedSeatInformation(selectedSeatIds)}/>
+      ):null}
             </Grid.Column>
-          {/* <div>
-            <Step />
-          </div> */}
           </Grid.Row>
         </Grid>
         </>
-      ) : null
+  )
       }
-    </>
-  );
-}
 
 export async function getServerSideProps({ query }) {
   console.log("Being called: getServerSideProps for seatCategoryInfo: ");

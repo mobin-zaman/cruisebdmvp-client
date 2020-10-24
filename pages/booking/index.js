@@ -42,7 +42,7 @@ export default function BookingPage({ data }) {
 
 
     const onDateChange = (event, data) => {
-        console.log("de value: ",data.value);
+        console.log("de value: ", data.value);
         if (data.value) setSelectedDate(reformatDate(data.value))
     };
 
@@ -50,7 +50,7 @@ export default function BookingPage({ data }) {
 
         const date = value.getDate();
         //1 needs to be added in month because getMonth() returns from 0 to 11
-        const month = value.getMonth()+1;
+        const month = value.getMonth() + 1;
         const year = value.getFullYear();
 
         const final = `${date}/${month}/${year}`;

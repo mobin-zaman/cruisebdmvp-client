@@ -1,16 +1,23 @@
+import {nanoid} from 'nanoid';
 import { Icon, Label, Menu, Table } from 'semantic-ui-react';
+import {useState} from 'react';
 
 export default function PricingTable({ data }) {
     console.log("Data in the pricing table: ", data);
-    if (!data) return null;
+    if(!data) return null;
+    if(data.find(element => element===undefined)) return null;
+
+    // const [totalFare, setTotalFare] = useState(0);
 
     const createRowAndCell = (data) => {
         console.log("data: ", data)
+        // if(!data) return null;
 
         return data.map(element => {
             const { seatName, seatFare, seatTypeTitle } = element;
+            //having the sum at the same time to reduce the time
             return (
-                <Table.Row>
+                <Table.Row key={nanoid()}>
 
                     <Table.Cell>
                         {seatName}
@@ -27,6 +34,15 @@ export default function PricingTable({ data }) {
                 </Table.Row>
             )
         })
+    }
+
+    const getTotalFare = (data) => {
+        const totalFare = data.reduce((total, element) => {
+            return total+=element;
+        },0)
+
+        console.log("this is the total: ", totalFare);
+        return 10;
     }
 
 
@@ -48,6 +64,18 @@ return (
                 createRowAndCell(data)
             }
         </Table.Body>
+
+         <Table.Footer>
+            <Table.Row>
+                <Table.Cell>
+                    Total Fare
+                </Table.Cell>
+                <Table.Cell>
+                    <div>{getTotalFare(data)}</div>
+                </Table.Cell>
+                
+            </Table.Row>
+        </Table.Footer> 
     </Table>
 )
 }
