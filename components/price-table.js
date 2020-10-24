@@ -38,11 +38,11 @@ export default function PricingTable({ data }) {
 
     const getTotalFare = (data) => {
         const totalFare = data.reduce((total, element) => {
-            return total+=element;
+            return total+=Number(element.seatFare);
         },0)
 
         console.log("this is the total: ", totalFare);
-        return 10;
+        return totalFare;
     }
 
 
@@ -72,6 +72,9 @@ return (
                 </Table.Cell>
                 <Table.Cell>
                     <div>{getTotalFare(data)}</div>
+                </Table.Cell>
+                <Table.Cell>
+                    
                 </Table.Cell>
                 
             </Table.Row>
