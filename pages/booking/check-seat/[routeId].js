@@ -119,6 +119,15 @@ function CheckSeatPage({ data }) {
     
   }
 
+  const confirmTickets = (seatIdArray) => {
+    router.push({
+      pathname: '/booking/confirm/',
+      query: {
+        selectedSeatIds: seatIdArray
+      }
+    })
+  }
+
 
   console.log("Seat category options: ", seatCategoryOption);
 
@@ -162,7 +171,7 @@ function CheckSeatPage({ data }) {
           {/* //?the price table componenet */}
           <Grid.Column>
       {selectedSeatIds ? (
-            <PricingTable data={getSelectedSeatInformation(selectedSeatIds)}/>
+            <PricingTable data={getSelectedSeatInformation(selectedSeatIds)} navigate={() =>confirmTickets(selectedSeatIds)}/>
       ):null}
             </Grid.Column>
           </Grid.Row>
