@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router'
 import getSeatInfo from '../../../api-service/seat-info';
-import { Dropdown, Image,Grid } from "semantic-ui-react";
+import { Dropdown, Image, Grid } from "semantic-ui-react";
 import { useState, useReducer } from 'react';
 import PricingTable from '../../../components/price-table';
 
@@ -11,12 +11,12 @@ const initialState = {
 }
 
 const reducer = (state, action) => {
-  if(action.type === "reset") {
+  if (action.type === "reset") {
     return initialState;
   }
 
   console.log("value being dispatched: ", action.value);
-  const result = {...state};
+  const result = { ...state };
   result[action.type] = action.value;
   console.log("this is the result: ", result);
 
@@ -24,12 +24,12 @@ const reducer = (state, action) => {
 }
 
 
-function CheckSeatPage({ data }) {
+function CheckSeatPage({ data, routeId, departureDate }) {
   const router = useRouter()
 
   const [state, dispatch] = useReducer(reducer, initialState);
 
-  const {selectedSeatIds} = state;
+  const { selectedSeatIds } = state;
 
 
   const [selectedSeatCategory, setSelectedSeatCategory] = useState(null);
@@ -84,13 +84,13 @@ function CheckSeatPage({ data }) {
 
   }
 
-  const getSelectedSeats = ( event, data) => {
+  const getSelectedSeats = (event, data) => {
     console.log("Get selected seat: ");
     console.log("Event: ", event);
     console.log("data: ", data);
     // setSelectedSeatIds(data.value);
     //!the type needs to be string, not the variable name
-    dispatch({type: "selectedSeatIds", value: data.value});
+    dispatch({ type: "selectedSeatIds", value: data.value });
   }
 
   /**
@@ -98,7 +98,7 @@ function CheckSeatPage({ data }) {
    * @param {*} seatIds 
    */
   const getSelectedSeatInformation = (seatIds) => {
-    if(!seatIds) return null;
+    if (!seatIds) return null;
     console.log("Seat ids: ", seatIds);
 
     const selectedCategory = data.find(x => x.seatCategoryId === selectedSeatCategory);
@@ -110,20 +110,28 @@ function CheckSeatPage({ data }) {
 
     for (const seatId of seatIds) {
       console.log("Seat id: ", seatId);
-      const seatInformation = availableSeats.find(x=> x.seatId === seatId);
+      const seatInformation = availableSeats.find(x => x.seatId === seatId);
       console.log("selected seatInformation: ", seatInformation);
       selectedSeatInformations.push(seatInformation);
     }
 
     return selectedSeatInformations;
-    
+
   }
 
   const confirmTickets = (seatIdArray) => {
+    const pricingTableData = getSelectedSeatInformation(selectedSeatIds);
+    
+    console.log("Pricing table: ", pricingTableData);
     router.push({
       pathname: '/booking/confirm/',
       query: {
-        selectedSeatIds: seatIdArray
+        routeId: routeId,
+        departureDate: departureDate,
+        seatCategoryId: selectedSeatCategory,
+        selectedSeatIds: seatIdArray,
+        pricingTableData:JSON.stringify(pricingTableData)
+        
       }
     })
   }
@@ -147,38 +155,38 @@ function CheckSeatPage({ data }) {
         />
       </div>
 
-          <div> Seat Layout</div>
-          <Grid columns={2}>
-            <Grid.Row>
-              <Grid.Column>
-          <div>
-            <Image src={getSeatLayoutImageUrl(selectedSeatCategory)} />
-          </div>
-          <div>Available seats for purchase</div>
-          <div>
-            <Dropdown
-              placeholder=' Select seats'
-              search
-          // fluid
-              selection
-              multiple
-              options={getAvailableSeats(selectedSeatCategory)}
-              button
-            onChange={getSelectedSeats}
-            />
-          </div>
+      <div> Seat Layout</div>
+      <Grid columns={2}>
+        <Grid.Row>
+          <Grid.Column>
+            <div>
+              <Image src={getSeatLayoutImageUrl(selectedSeatCategory)} />
+            </div>
+            <div>Available seats for purchase</div>
+            <div>
+              <Dropdown
+                placeholder=' Select seats'
+                search
+                // fluid
+                selection
+                multiple
+                options={getAvailableSeats(selectedSeatCategory)}
+                button
+                onChange={getSelectedSeats}
+              />
+            </div>
           </Grid.Column>
           {/* //?the price table componenet */}
           <Grid.Column>
-      {selectedSeatIds ? (
-            <PricingTable data={getSelectedSeatInformation(selectedSeatIds)} navigate={() =>confirmTickets(selectedSeatIds)}/>
-      ):null}
-            </Grid.Column>
-          </Grid.Row>
-        </Grid>
-        </>
+            {selectedSeatIds ? (
+              <PricingTable data={getSelectedSeatInformation(selectedSeatIds)} navigate={() => confirmTickets(selectedSeatIds)} />
+            ) : null}
+          </Grid.Column>
+        </Grid.Row>
+      </Grid>
+    </>
   )
-      }
+}
 
 export async function getServerSideProps({ query }) {
   console.log("Being called: getServerSideProps for seatCategoryInfo: ");
@@ -196,7 +204,13 @@ export async function getServerSideProps({ query }) {
 
 
   // Pass data to the page via props
-  return { props: { data } }
+  return {
+    props: {
+      data,
+      routeId: routeId,
+      departureDate: departureDate
+    }
+  }
 }
 
 
