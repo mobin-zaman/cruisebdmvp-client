@@ -2,7 +2,7 @@ import { nanoid } from 'nanoid';
 import { Icon, Label, Menu, Table, Button } from 'semantic-ui-react';
 import { useState } from 'react';
 
-export default function PricingTable({ data, navigate }) {
+export default function PricingTable({ data, navigate,  buttonText }) {
     console.log("Data in the pricing table: ", data);
     if (!data) return null;
     if (data.find(element => element === undefined)) return null;
@@ -75,7 +75,7 @@ export default function PricingTable({ data, navigate }) {
                         <div>{getTotalFare(data)}</div>
                     </Table.Cell>
                     <Table.Cell>
-                    <Button positive onClick={navigate}>Confirm Tickets</Button>
+            <Button positive onClick={navigate}>{buttonText}</Button>
                     </Table.Cell>
 
                 </Table.Row>

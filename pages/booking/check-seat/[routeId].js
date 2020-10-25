@@ -121,7 +121,7 @@ function CheckSeatPage({ data, routeId, departureDate }) {
 
   const confirmTickets = (seatIdArray) => {
     const pricingTableData = getSelectedSeatInformation(selectedSeatIds);
-    
+
     console.log("Pricing table: ", pricingTableData);
     router.push({
       pathname: '/booking/confirm/',
@@ -130,8 +130,8 @@ function CheckSeatPage({ data, routeId, departureDate }) {
         departureDate: departureDate,
         seatCategoryId: selectedSeatCategory,
         selectedSeatIds: seatIdArray,
-        pricingTableData:JSON.stringify(pricingTableData)
-        
+        pricingTableData: JSON.stringify(pricingTableData)
+
       }
     })
   }
@@ -179,7 +179,7 @@ function CheckSeatPage({ data, routeId, departureDate }) {
           {/* //?the price table componenet */}
           <Grid.Column>
             {selectedSeatIds ? (
-              <PricingTable data={getSelectedSeatInformation(selectedSeatIds)} navigate={() => confirmTickets(selectedSeatIds)} />
+              <PricingTable data={getSelectedSeatInformation(selectedSeatIds)} buttonText="Confirm Seats" navigate={() => confirmTickets(selectedSeatIds)} />
             ) : null}
           </Grid.Column>
         </Grid.Row>
