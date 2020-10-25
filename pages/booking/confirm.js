@@ -18,6 +18,7 @@ export default function Confirm({ data }) {
             setError({
                 passangerName: "Enter passenger name"
             })
+            return false;
         }
 
         //!TODO proper mobile number validation needs to be given
@@ -26,7 +27,35 @@ export default function Confirm({ data }) {
             setError({
                 mobileNumber: "Enter proper mobile number"
             })
+            return false;
         }
+
+        return true;
+        
+    }
+
+    const confirmTickets = () => {
+        if(validatePassangeInfo()) {
+            setError({})
+        } else {
+            return;
+        }
+        
+        router.push({
+            pathname: '/booking/get-ticket/',
+            query: {
+              routeId: routeId,
+              departureDate: departureDate,
+              seatCategoryId: seatCategoryId,
+              selectedSeatIds: selectedSeatIds,
+              pricingTableData: JSON.stringify(pricingTableData),
+              passangerName: passangerName,
+              mobileNumber: mobileNumber
+            }
+          })
+
+
+
     }
 
     return (
@@ -55,11 +84,12 @@ export default function Confirm({ data }) {
                                 error={error.mobileNumber ? ({
                                     content: error.mobileNumber
                                 }) : null}
+                                onChange={(e) => setMobileNumber(e.target.value)}
                             />
                         </Form>
                     </Grid.Column>
                     <Grid.Column>
-                        <PricingTable data={pricingTableData} navigate={null} buttonText="Confirm Ticket" />
+                        <PricingTable data={pricingTableData} navigate={confirmTickets} buttonText="Confirm Ticket" />
                     </Grid.Column>
                 </Grid.Row>
             </Grid>
