@@ -132,7 +132,8 @@ function CheckSeatPage({ data, routeId, departureDate }) {
         selectedSeatIds: seatIdArray,
         pricingTableData: JSON.stringify(pricingTableData)
 
-      }
+      },
+      as: '/booking/confirm/'
     })
   }
 

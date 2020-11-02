@@ -40,15 +40,15 @@ export default function Confirm({ data }) {
         } else {
             return;
         }
-        
+        console.log('Pricing table data: ', pricingTableData); 
+
         router.push({
             pathname: '/booking/get-ticket/',
             query: {
               routeId: routeId,
               departureDate: departureDate,
               seatCategoryId: seatCategoryId,
-              selectedSeatIds: selectedSeatIds,
-              pricingTableData: JSON.stringify(pricingTableData),
+              pricingTableData: JSON.stringify(router.query.pricingTableData),
               passangerName: passangerName,
               mobileNumber: mobileNumber
             }
