@@ -1,0 +1,21 @@
+{
+  "name": "cruisebdmvp-client",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "NODE_OPTIONS='--inspect' next dev",
+    "build": "next build",
+    "start": "next start"
+  },
+  "dependencies": {
+    "axios": "^0.20.0",
+    "nanoid": "^3.1.15",
+    "next": "9.5.5",
+    "nprogress": "^0.2.0",
+    "react": "16.14.0",
+    "react-dom": "16.14.0",
+    "react-semantic-ui-datepickers": "^2.10.0",
+    "semantic-ui-css": "^2.4.1",
+    "semantic-ui-react": "^2.0.0"
+  }
+}
