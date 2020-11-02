@@ -7,6 +7,7 @@ import { useState, useReducer } from 'react';
 import SemanticDatepicker from 'react-semantic-ui-datepickers';
 import 'react-semantic-ui-datepickers/dist/react-semantic-ui-datepickers.css';
 import { useRouter } from 'next/router';
+import Error from "../_error.js";
 
 function exampleReducer(state, action) {
     switch (action.type) {
@@ -22,8 +23,15 @@ function exampleReducer(state, action) {
 
 
 
-export default function BookingPage({ data }) {
+export default function BookingPage({ data, statusCode }) {
 
+    if(statusCode === 500) {
+        return (
+            <>
+            <Error statusCode={statusCode}/>
+            </>
+        )
+    }
     const router = useRouter();
 
     const [state, dispatch] = useReducer(exampleReducer, {
@@ -178,14 +186,25 @@ export default function BookingPage({ data }) {
 }
 
 
-export async function getServerSideProps() {
+export async function getServerSideProps({res}) {
     console.log("Being called: getServerSideProps: ");
 
+    try{
     const data = await getShipData();
 
     console.log("data: ", data);
 
 
     // Pass data to the page via props
-    return { props: { data } }
+    // res.statusCode = 200;
+    return { props: { data  } }
+    } catch(e) {
+        console.log("ERROR IN SSR: booking/index: ",e);
+        // res.statusCode = 500;
+        return {
+            props: {
+                statusCode: 500
+            }
+        }
+    }
 }

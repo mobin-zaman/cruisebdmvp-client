@@ -16,6 +16,7 @@ export default async function getShipData() {
 
     } catch(e) {
         console.log("error: getShipData(): ", e);
+        throw e;
     }
 
 }
