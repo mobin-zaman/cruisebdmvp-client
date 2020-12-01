@@ -2,14 +2,22 @@ import * as axios from "axios";
 import {BASE_URL} from "./base-url";
 
 
-export default async function getShipData() {
+export default async function getShipData(bearerToken) {
     
-    console.log("Is it executing:?");
+
+    console.log("Bearer token: ", bearerToken);
 
     const shipDataEndpoint = `${BASE_URL}/booking/ships`;
 
     try{
-    const response = await axios.get(shipDataEndpoint);
+
+    const authorizationHeader = `Bearer ${bearerToken}`;
+
+    const response = await axios.get(shipDataEndpoint, {
+        headers: {
+            authorization: authorizationHeader
+        }
+    });
     // console.log("response: ", response.data);
 
     return response.data;

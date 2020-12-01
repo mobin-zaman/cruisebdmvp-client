@@ -1,6 +1,7 @@
 // import {DropDown} from 'semantic-ui-react';
 import { Dropdown, Button, Icon, Modal } from 'semantic-ui-react'
 // import ShipDropDown from '../components/ship-dropdown'
+import nookies from 'nookies';
 import getShipData from '../../api-service/ship-data';
 import Step from '../../components/steps';
 import { useState, useReducer } from 'react';
@@ -178,14 +179,21 @@ export default function BookingPage({ data }) {
 }
 
 
-export async function getServerSideProps() {
+export async function getServerSideProps(ctx) {
     console.log("Being called: getServerSideProps: ");
+    
+    try{
 
-    const data = await getShipData();
+        //TODO: add error handling
+    const cookies = nookies.get(ctx);
+
+
+    const data = await getShipData(cookies.token);
 
     console.log("data: ", data);
 
 
     // Pass data to the page via props
     return { props: { data } }
+    } catch(eer) {}
 }
