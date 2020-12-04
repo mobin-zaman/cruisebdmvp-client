@@ -13,7 +13,7 @@ export default function Home() {
 
       <main className={styles.main}>
         <h1 className={styles.title}>
-          Welcome to <Link href="/booking">CruiseBD</Link>
+          Welcome to <Link href="/login">CruiseBD</Link>
         </h1>
 
       </main>
