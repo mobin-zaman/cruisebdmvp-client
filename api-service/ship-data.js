@@ -24,6 +24,7 @@ export default async function getShipData(bearerToken) {
 
     } catch(e) {
         console.log("error: getShipData(): ", e);
+        throw e;
     }
 
 }
