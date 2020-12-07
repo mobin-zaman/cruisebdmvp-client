@@ -115,8 +115,11 @@ export default function BookingPage({ data, statusCode }) {
             dispatch({ type: 'open', size: 'mini' });
 
         } else {
-            //set session storage here
-            router.push(`/booking/check-seat/${selectedRoute}?departureDate=${encodeURIComponent(selectedDate)}`);
+
+            //nookies.set other example, /src/context/user.context.js
+            nookies.set(undefined, 'selectedRoute', selectedRoute);
+            nookies.set(undefined, 'selectedDate', selectedDate);
+            router.push('/booking/check-seat/');
 
         }
     }

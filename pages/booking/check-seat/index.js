@@ -3,6 +3,7 @@ import getSeatInfo from '../../../api-service/seat-info';
 import { Dropdown, Image, Grid } from "semantic-ui-react";
 import { useState, useReducer } from 'react';
 import PricingTable from '../../../components/price-table';
+import nookies from 'nookies';
 
 //? ref: https://stackoverflow.com/questions/54895883/reset-to-initial-state-with-react-hooks
 
@@ -189,17 +190,18 @@ function CheckSeatPage({ data, routeId, departureDate }) {
   )
 }
 
-export async function getServerSideProps({ query }) {
+export async function getServerSideProps(ctx) {
+  
   console.log("Being called: getServerSideProps for seatCategoryInfo: ");
 
-  // const data = await getSeatInfo();
 
-  // console.log("query in getServerSideProps: ", query);
+  // const { routeId, departureDate } = query;
 
-  const { routeId, departureDate } = query;
+  const cookies = nookies.get(ctx);
 
+  const {selectedRoute, selectedDate, token} = cookies;
 
-  let data = await getSeatInfo(routeId, departureDate);
+  let data = await getSeatInfo(selectedRoute, selectedDate, token);
 
   console.log("data: ", data);
 
@@ -208,8 +210,8 @@ export async function getServerSideProps({ query }) {
   return {
     props: {
       data,
-      routeId: routeId,
-      departureDate: departureDate
+      routeId: selectedRoute,
+      departureDate: selectedDate
     }
   }
 }
