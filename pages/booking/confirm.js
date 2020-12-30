@@ -60,7 +60,8 @@ export default function Confirm({ pricingTableData }) {
          nookies.set(undefined, 'passengerName', passengerName);
          nookies.set(undefined, 'mobileNumber', mobileNumber);
 
-
+        //now navigate to the get-ticket page to purchase ticket
+        
         router.push({
             pathname: '/booking/get-ticket/',
             // query: {
