@@ -44,17 +44,33 @@ export default function Confirm({ pricingTableData }) {
         }
         console.log('Pricing table data: ', pricingTableData); 
 
+        /**
+         * set the cookies before navigation
+         * we are getting:
+         *      selectedRoute
+         *      selectedDate
+         *      selectedSeatCategory
+         *      selectedSeatIds
+         *      pricingTableData (which is stringified) 
+         * we will set:
+         *      passengerName
+         *      mobileNumber
+         */
+
+         nookies.set(undefined, 'passengerName', passengerName);
+         nookies.set(undefined, 'mobileNumber', mobileNumber);
+
 
         router.push({
             pathname: '/booking/get-ticket/',
-            query: {
-              routeId: routeId,
-              departureDate: departureDate,
-              seatCategoryId: seatCategoryId,
-              pricingTableData: JSON.stringify(router.query.pricingTableData),
-              passengerName: passengerName,
-              mobileNumber: mobileNumber
-            }
+            // query: {
+            //   routeId: routeId,
+            //   departureDate: departureDate,
+            //   seatCategoryId: seatCategoryId,
+            //   pricingTableData: JSON.stringify(router.query.pricingTableData),
+            //   passengerName: passengerName,
+            //   mobileNumber: mobileNumber
+            // }
           })
 
 
