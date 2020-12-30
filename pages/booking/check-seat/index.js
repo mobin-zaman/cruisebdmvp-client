@@ -131,7 +131,7 @@ function CheckSeatPage({ data, routeId, departureDate }) {
 
     nookies.set(undefined, 'selectedSeatCategory', selectedSeatCategory);
     nookies.set(undefined, 'selectedSeatIds', selectedSeatIds);
-    nookies.set(undefined, 'pricingTableData', pricingTableData);
+    nookies.set(undefined, 'pricingTableData', JSON.stringify(pricingTableData)); //as pricingTableData is an object, it needs to be stringified before putting that into cookies
 
 
     router.push({

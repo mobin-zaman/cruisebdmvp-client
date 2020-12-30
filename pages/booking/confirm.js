@@ -4,11 +4,11 @@ import { useState } from 'react';
 import PricingTable from '../../components/price-table';
 import nookies from 'nookies';
 
-export default function Confirm({ data }) {
+export default function Confirm({ pricingTableData }) {
     const router = useRouter();
 
-    const { selectedSeatIds, departureDate, routeId, seatCategoryId, } = router.query;
-    const pricingTableData = JSON.parse(router.query.pricingTableData);
+    // const { selectedSeatIds, departureDate, routeId, seatCategoryId, } = router.query;
+    // const pricingTableData = JSON.parse(router.query.pricingTableData);
     const [error, setError] = useState({})
 
     const [passengerName, setPassengerName] = useState(null);
@@ -98,4 +98,17 @@ export default function Confirm({ data }) {
             </Grid>
         </>
     )
+}
+export async function getServerSideProps(ctx) {
+
+    const cookies = nookies.get(ctx);
+
+    const pricingTableData = JSON.parse(cookies.pricingTableData);
+
+    return {
+        props: {
+            pricingTableData
+        }
+    }
+
 }
