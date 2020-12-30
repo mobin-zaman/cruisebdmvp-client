@@ -124,16 +124,26 @@ function CheckSeatPage({ data, routeId, departureDate }) {
     const pricingTableData = getSelectedSeatInformation(selectedSeatIds);
 
     console.log("Pricing table: ", pricingTableData);
+  
+    //set the cookies before navigation
+    // we are getting selectedRoute, selectedDate(which is the departureDate) in the cookies from /booking/index.js before coming to this page
+    // we are setting selectingSeatCategory,selectedSeatIds, pricingTableData before going to the /booking/confirm page
+
+    nookies.set(undefined, 'selectedSeatCategory', selectedSeatCategory);
+    nookies.set(undefined, 'selectedSeatIds', selectedSeatIds);
+    nookies.set(undefined, 'pricingTableData', pricingTableData);
+
+
     router.push({
       pathname: '/booking/confirm/',
-      query: {
-        routeId: routeId,
-        departureDate: departureDate,
-        seatCategoryId: selectedSeatCategory,
-        selectedSeatIds: seatIdArray,
-        pricingTableData: JSON.stringify(pricingTableData)
-
-      },
+      // query: {
+        // routeId: routeId,
+        // departureDate: departureDate,
+        // seatCategoryId: selectedSeatCategory,
+        // selectedSeatIds: seatIdArray,
+        // pricingTableData: JSON.stringify(pricingTableData)
+// 
+      // },
       as: '/booking/confirm/'
     })
   }

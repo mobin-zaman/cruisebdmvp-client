@@ -2,7 +2,7 @@ import { useRouter } from 'next/router'
 import { Form, Grid, Input } from 'semantic-ui-react';
 import { useState } from 'react';
 import PricingTable from '../../components/price-table';
-
+import nookies from 'nookies';
 
 export default function Confirm({ data }) {
     const router = useRouter();
@@ -43,6 +43,7 @@ export default function Confirm({ data }) {
             return;
         }
         console.log('Pricing table data: ', pricingTableData); 
+
 
         router.push({
             pathname: '/booking/get-ticket/',
