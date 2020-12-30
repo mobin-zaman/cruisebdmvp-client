@@ -16,7 +16,8 @@ export default async function bookSeat(routeId, seatCategoryId, departureDate, s
     const requestUrl = `${BASE_URL}/booking/seat-book/`;
 
     try{
-        const authorizationHeader = bearerTokenCreator(bearerToken);
+
+    const authorizationHeader = bearerTokenCreator(bearerToken);
 
 
 

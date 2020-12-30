@@ -1,26 +1,30 @@
-import bookSeat from "../../api-service/book-seat";
-import {Image } from 'semantic-ui-react';
+import bookSeat from "../../api-service/book-seat";import nookies from 'nookies';
+
 
 
 function GetTicketPage({ data }) {
     console.log("Data: ", data);
     return (
-        <>
-        <Image src={data.ticket}/>
-        </>
+        <div>
+            This is your ticket link: {data.stringify()}
+            This is your ticket link: {data.ticketUrl}
+        </div>
     )
-}
+}etUrljj
 
 
 
-export async function getServerSideProps({ query }) {
+export async function getServerSideProps(ctx) {
+
+    //first let's get all the data from the query parameters
+    const {query} = ctx;
+
     console.log("Get ticket getServersideProps: query: ",query);
-
 
     console.log("query in getServerSideProps: ", query);
 
 
-    const { departureDate, routeId, seatCategoryId,  pricingTableData, passangerName, mobileNumber } = query;
+    const { departureDate, routeId, seatCategoryId,  pricingTableData, passengerName, mobileNumber } = query;
 
     // *the JSON.parse was returning string, but we needed the object
     // *ref: https://stackoverflow.com/questions/42494823/json-parse-returns-string-instead-of-object
@@ -37,8 +41,12 @@ export async function getServerSideProps({ query }) {
 
     console.log("SelectedSeatIds: ", selectedSeatIds);
 
+    //now let's get the bearer token
 
-    let data = await bookSeat(routeId, seatCategoryId, departureDate, selectedSeatIds, passangerName, mobileNumber);
+    const cookies = nookies.get(ctx);
+
+
+    let data = await bookSeat(routeId, seatCategoryId, departureDate, selectedSeatIds, passengerName, mobileNumber, cookies.token);
 
     console.log("data: ", data);
 

@@ -2,6 +2,8 @@ import { useRouter } from 'next/router'
 import { Form, Grid, Input } from 'semantic-ui-react';
 import { useState } from 'react';
 import PricingTable from '../../components/price-table';
+
+
 export default function Confirm({ data }) {
     const router = useRouter();
 
@@ -9,14 +11,14 @@ export default function Confirm({ data }) {
     const pricingTableData = JSON.parse(router.query.pricingTableData);
     const [error, setError] = useState({})
 
-    const [passangerName, setPassangerName] = useState(null);
+    const [passengerName, setPassengerName] = useState(null);
     const [mobileNumber, setMobileNumber] = useState(null);
 
 
-    const validatePassangeInfo = () => {
-        if (!passangerName) {
+    const validatePassengerInfo = () => {
+        if (!passengerName) {
             setError({
-                passangerName: "Enter passenger name"
+                passengerName: "Enter passenger name"
             })
             return false;
         }
@@ -35,7 +37,7 @@ export default function Confirm({ data }) {
     }
 
     const confirmTickets = () => {
-        if(validatePassangeInfo()) {
+        if(validatePassengerInfo()) {
             setError({})
         } else {
             return;
@@ -49,7 +51,7 @@ export default function Confirm({ data }) {
               departureDate: departureDate,
               seatCategoryId: seatCategoryId,
               pricingTableData: JSON.stringify(router.query.pricingTableData),
-              passangerName: passangerName,
+              passengerName: passengerName,
               mobileNumber: mobileNumber
             }
           })
@@ -70,9 +72,9 @@ export default function Confirm({ data }) {
                                 control={Input}
                                 label="Passenger Name"
                                 placheholder="Passenger Name"
-                                onChange={(e) => setPassangerName(e.target.value)}
-                                error={error.passangerName ? ({
-                                        content: error.passangerName
+                                onChange={(e) => setPassengerName(e.target.value)}
+                                error={error.passengerName ? ({
+                                        content: error.passengerName
                                     }) : null
                                 }
                             />
