@@ -6,11 +6,11 @@ function GetTicketPage({ data }) {
     console.log("Data: ", data);
     return (
         <div>
-            This is your ticket link: {data.stringify()}
+            {/* This is your ticket link: {data.stringify()} */}
             This is your ticket link: {data.ticketUrl}
         </div>
     )
-}etUrljj
+}
 
 
 
@@ -45,7 +45,18 @@ export async function getServerSideProps(ctx) {
 
     const cookies = nookies.get(ctx);
 
-    const {selectedRoute,selectedDate, selectedSeatCategory, selectedSeatIds, passengerName, mobileNumber } = cookies;
+    const {selectedRoute,selectedDate, selectedSeatCategory, pricingTableData, passengerName, mobileNumber } = cookies;
+
+    const parsedPricingTableData = JSON.parse(pricingTableData);
+
+    console.log("ParsedPricingTableData: ", parsedPricingTableData);
+    console.log("Type of: ", typeof(parsedPricingTableData));
+
+    const selectedSeatIds = parsedPricingTableData.reduce((total, element) => {
+        total.push(element.seatId);
+
+        return total;
+    }, []);
 
 
     let data = await bookSeat(selectedRoute, selectedSeatCategory, selectedDate, selectedSeatIds, passengerName, mobileNumber, cookies.token);
