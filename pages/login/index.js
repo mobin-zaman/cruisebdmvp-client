@@ -19,7 +19,7 @@ export default function Login() {
     console.log("suposed to print");
     return (
         <div>
-            <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={firebase.auth()}/>
+            <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={firebase}/>
         </div>
     )
   }
