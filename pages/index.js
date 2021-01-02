@@ -15,10 +15,11 @@ export default function Home() {
         <h1 className={styles.title}>
           Welcome to CruiseBD
         </h1>
+
         <h1 className={styles.title}>
         <Link href="/login">Login</Link>
-
         </h1>
+
         <h2>General Instructions to follow before using the website</h2>  
         <h3>1. You are strongly recommended to use this application in incognito mode of the browser.</h3> 
         <h3> 2. Google Chrome is recommended browser</h3> 

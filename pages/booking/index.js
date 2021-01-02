@@ -7,8 +7,9 @@ import Step from '../../components/steps';
 import { useState, useReducer } from 'react';
 import SemanticDatepicker from 'react-semantic-ui-datepickers';
 import 'react-semantic-ui-datepickers/dist/react-semantic-ui-datepickers.css';
-import { useRouter } from 'next/router';
+import Router from 'next/router';
 import Error from "../_error.js";
+import {BASE_URL} from '../../api-service/base-url';
 
 function exampleReducer(state, action) {
     switch (action.type) {
@@ -33,7 +34,6 @@ export default function BookingPage({ data, statusCode }) {
             </>
         )
     }
-    const router = useRouter();
 
     const [state, dispatch] = useReducer(exampleReducer, {
         open: false,
@@ -124,9 +124,16 @@ export default function BookingPage({ data, statusCode }) {
         }
     }
 
+    const getToTicketHistoryPage = () => {
+        Router.push(`/ticket-history`);
+    }
+
 
     return (
         <>
+            <div>
+                <Button onClick={getToTicketHistoryPage}>Ticket History</Button>
+            </div>
             <div>Ship</div>
             <div><Dropdown
                 placeholder=' Select Ship'
