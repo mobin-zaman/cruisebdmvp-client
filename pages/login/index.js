@@ -1,4 +1,4 @@
-import {firebase} from '../../firebase/firebase-client';
+ import {firebase} from '../../firebase/firebase-client';
 
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
 
