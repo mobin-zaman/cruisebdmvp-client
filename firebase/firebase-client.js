@@ -14,7 +14,7 @@ import 'firebase/auth';
     measurementId: "G-6QP44NBCV0"
 ,
   });
-  firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL);
+  firebase.auth().setPersistence(firebase.auth.Auth.Persistence.SESSION);
   }
 
 export { firebase };
