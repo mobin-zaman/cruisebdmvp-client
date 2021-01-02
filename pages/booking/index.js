@@ -8,6 +8,7 @@ import { useState, useReducer } from 'react';
 import SemanticDatepicker from 'react-semantic-ui-datepickers';
 import 'react-semantic-ui-datepickers/dist/react-semantic-ui-datepickers.css';
 import Router from 'next/router';
+import {useRouter} from 'next/router';
 import Error from "../_error.js";
 import {BASE_URL} from '../../api-service/base-url';
 
@@ -48,7 +49,7 @@ export default function BookingPage({ data, statusCode }) {
 
     const [selectedRoute, setSelectedRoute] = useState(null);
 
-
+    const router = useRouter();
 
     const onDateChange = (event, data) => {
         console.log("de value: ", data.value);
