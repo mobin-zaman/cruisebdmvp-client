@@ -1,13 +1,20 @@
 import bookSeat from "../../api-service/book-seat";import nookies from 'nookies';
-
-
+import { Button } from 'semantic-ui-react'
+import Router from 'next/router';
+import {BASE_URL} from '../../api-service/base-url'
 
 function GetTicketPage({ data }) {
+
+
+    const downloadTicketHandler = () => {
+        Router.push(`${BASE_URL}/ticket/${data.ticketId}/pdf`);
+    }
+    
     console.log("Data: ", data);
     return (
         <div>
-            {/* This is your ticket link: {data.stringify()} */}
-            This is your ticket link: {data.ticketUrl}
+            Your ticket is ready
+             <Button positive onClick={downloadTicketHandler}>Download Ticket</Button>
         </div>
     )
 }
@@ -49,8 +56,8 @@ export async function getServerSideProps(ctx) {
 
     const parsedPricingTableData = JSON.parse(pricingTableData);
 
-    console.log("ParsedPricingTableData: ", parsedPricingTableData);
-    console.log("Type of: ", typeof(parsedPricingTableData));
+    // console.log("ParsedPricingTableData: ", parsedPricingTableData);
+    // console.log("Type of: ", typeof(parsedPricingTableData));
 
     const selectedSeatIds = parsedPricingTableData.reduce((total, element) => {
         total.push(element.seatId);
