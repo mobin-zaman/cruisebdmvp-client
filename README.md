@@ -76,6 +76,12 @@ The dev server runs at [http://localhost:3000](http://localhost:3000).
 
 - The app is designed to be used in an incognito/private browser window.
 
+## Related repositories
+
+- [**cruisebdmvp**](https://github.com/mobin-zaman/cruisebdmvp) — the CruiseBD
+  Booking API backend (NestJS) that this client talks to. It exposes the
+  `/booking/*` endpoints consumed by the `api-service/` wrappers.
+
 ## License
 
 UNLICENSED — private project. See `package.json`.
